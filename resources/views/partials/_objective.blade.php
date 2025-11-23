@@ -1,10 +1,11 @@
     <div class="container">
-        <div class="services-items services-carousel owl-carousel owl-theme text-center">
-                
-                @if(count($objectives) == 0 ) 
-                <p class="text-center">No Objectives Found</p>
+           @if(count($objectives) == 0 ) 
+                <h3 class="text-center">No Objectives Found</h3>
 
                 @endif
+        <div class="services-items services-carousel owl-carousel owl-theme text-center">
+                
+             
 
                 @foreach ($objectives as $objective )
                      <div class="item">

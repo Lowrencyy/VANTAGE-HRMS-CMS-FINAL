@@ -5,7 +5,7 @@
             {{-- LEFT IMAGE --}}
             <div class="col-lg-6">
                 <div class="thumb">
-                    @if($mission->image)
+                    @if($mission && $mission->image)
                         <img src="{{ asset($mission->image) }}" 
                              alt="Mission Image" 
                              class="mt-5 rounded">
@@ -20,9 +20,9 @@
             {{-- RIGHT CONTENT --}}
             <div class="col-lg-5 offset-lg-1 info">
 
-                <h2 class="title">{{ $mission->title ?? 'Our Mission & Vision' }}</h2>
+                <h2 class="title">{{ $mission?->title ?? 'Our Mission & Vision' }}</h2>
 
-                <p>{{ $mission->description ?? 'Default description goes here...' }}</p>
+                <p>{{ $mission?->description ?? 'Default description goes here...' }}</p>
 
                 <div class="content-tabs">
 
@@ -57,12 +57,12 @@
 
                         {{-- MISSION TEXT --}}
                         <div class="tab-pane fade show active" id="tabs_1" role="tabpanel">
-                            <p>{{ $mission->mission ?? 'Default mission text...' }}</p>
+                            <p>{{ $mission?->mission ?? 'Default mission text...' }}</p>
                         </div>
 
                         {{-- VISION TEXT --}}
                         <div class="tab-pane fade" id="tabs_2" role="tabpanel">
-                            <p>{{ $mission->vision ?? 'Default vision text...' }}</p>
+                            <p>{{ $mission?->vision ?? 'Default vision text...' }}</p>
                         </div>
 
                     </div>

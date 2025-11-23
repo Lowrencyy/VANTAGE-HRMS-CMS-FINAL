@@ -27,6 +27,7 @@
     <link href="{{ asset('main/assets/css/helper.css') }}" rel="stylesheet" />
     <link href="{{ asset('main/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('main/assets/css/responsive.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
    
 
 </head>

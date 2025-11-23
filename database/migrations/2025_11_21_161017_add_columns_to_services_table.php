@@ -9,21 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up()
-{
-    Schema::table('services', function (Blueprint $table) {
-        $table->string('title');          // Add title column
-        $table->text('description');      // Add description column
-        $table->string('image')->nullable(); // Add image column
-        $table->text('check_list');       // Add check_list column
-    });
-}
+    public function up(): void
+    {
+        // WALANG GAGAWIN DITO.
+        // Dati nag-a-add tayo ng title/description/image/check_list,
+        // pero nandiyan na sila sa database ngayon.
+        // Ginagawa na lang nating "dummy" migration para mag-pass.
+    }
 
-public function down()
-{
-    Schema::table('services', function (Blueprint $table) {
-        $table->dropColumn(['title', 'description', 'image', 'check_list']);
-    });
-}
-
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        // Optional: wala rin tayong idi-drop dito.
+        // Kung gusto mong maglagay:
+        // Schema::table('services', function (Blueprint $table) {
+        //     if (Schema::hasColumn('services', 'check_list')) {
+        //         $table->dropColumn('check_list');
+        //     }
+        // });
+    }
 };

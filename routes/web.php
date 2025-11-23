@@ -192,6 +192,11 @@ Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])
     ->middleware('auth');
 
 
+// Single Services
+
+Route::get('/services/{id}', [ServiceController::class, 'show'])
+    ->name('services.show');
+
 
 // Show the form to create a new objective (MUST come BEFORE {id} routes)
 Route::get('/admin/objectives/create', [ObjectiveController::class, 'create'])->name('admin.objectives.create')->middleware('auth');

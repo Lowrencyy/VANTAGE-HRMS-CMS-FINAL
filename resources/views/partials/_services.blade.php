@@ -10,26 +10,44 @@
         </div>
     </div>
 
+     @if(count($services) == 0) 
+                <h3 class="text-center">No Services Found</h3>
+            @endif
+            
     <div class="container ">
         <div class="services-items services-carousel owl-carousel owl-theme text-center">
-            @if(count($services) == 0) 
-                <p>No Services Found</p>
-            @endif
+           
 
-            @foreach ($services as $service)  <!-- Change $services to $service -->
-                <div class="item">
-                    <div class="icon">
-                        <img src="{{ asset('main/assets/img/icon/1.png') }}" alt="Icon">
-                    </div>
-                    <div class="info">
-                        <h4>{{ $service['title'] }}</h4>  <!-- Change $services to $service -->
-                        <p>
-                          {{ $service['description'] }}  <!-- Change $services to $service -->
-                        </p>
-                        <a href="/services/{{ $service['id'] }}">Discover More <i class="fas fa-angle-right"></i></a>
-                    </div>
-                </div>
-            @endforeach
+           @foreach ($services as $service)
+    <div class="item service-card">
+        {{-- RECTANGLE IMAGE --}}
+        <div class="service-card-thumb">
+            @if($service->image)
+                <img
+                    src="{{ asset($service->image) }}"
+                    alt="{{ $service->title }}"
+                    class="service-card-img"
+                >
+            @else
+                {{-- fallback image kung walang na-upload --}}
+                <img
+                    src="{{ asset('main/assets/img/services/default-rect.jpg') }}"
+                    alt="Service Image"
+                    class="service-card-img"
+                >
+            @endif
+        </div>
+
+        <div class="info">
+            <h3 class="mt-3">{{ $service->title }}</h3>
+            <p>{{ $service->description }}</p>
+            <a href="{{ route('services.show', $service->id) }}">
+                Discover More <i class="fas fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+@endforeach
+
         </div>
     </div>
 </div>

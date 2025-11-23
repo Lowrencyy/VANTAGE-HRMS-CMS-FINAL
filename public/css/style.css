@@ -1,0 +1,14 @@
+.service-image-wrapper {
+    max-width: 826px;
+    max-height: 826px;
+    width: 100%;        /* responsive */
+    aspect-ratio: 1 / 1;/* laging square */
+    overflow: hidden;   /* para hindi lumabas ang sobra */
+}
+
+.service-image-fixed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* pwede mo gawing 'contain' kung ayaw mo ma-crop */
+    display: block;
+}

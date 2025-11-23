@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Models\Objective;
+use App\Models\HeroBanner;
+use App\Models\MissionVision;
+use App\Models\WhyChoose;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -60,10 +64,10 @@ class ServiceController extends Controller
                 ->implode(',');
 
             Service::create([
-                'title'      => $request->title,
-                'description'=> $request->description,
-                'image'      => $imagePath,
-                'check_list' => $cleanChecklist,
+                'title'       => $request->title,
+                'description' => $request->description,
+                'image'       => $imagePath,
+                'check_list'  => $cleanChecklist,
             ]);
 
             if (function_exists('flash')) {
@@ -90,6 +94,31 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
 
         return view('admin.services.edit', compact('service'));
+    }
+
+    /**
+     * Show single service details on landing page
+     */
+    public function show($id)
+    {
+        // Single selected service
+        $service = Service::findOrFail($id);
+
+        // Shared data for header / partials
+        $objectives = Objective::all();
+        $banner     = HeroBanner::first();
+        $mission    = MissionVision::first();
+        $why        = WhyChoose::first();
+        $services   = Service::all(); // for services dropdown / listing kung kailangan
+
+        return view('landing.singleservices', compact(
+            'service',
+            'objectives',
+            'banner',
+            'mission',
+            'why',
+            'services'
+        ));
     }
 
     /**
@@ -179,21 +208,3 @@ class ServiceController extends Controller
         }
     }
 }
-
-
-
-// @php
-//     $items = $service->check_list
-//         ? explode(',', $service->check_list)
-//         : [];
-// @endphp
-
-// <ul class="service-checklist">
-//     @foreach($items as $item)
-//         <li>
-//             <i class="ri-check-line"></i> {{-- or fontawesome / icon mo --}}
-//             {{ trim($item) }}
-//         </li>
-//     @endforeach
-// </ul>
-
