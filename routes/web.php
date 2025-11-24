@@ -12,220 +12,67 @@ use App\Http\Controllers\MissionVisionController;
 use App\Http\Controllers\ObjectiveController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\WhyChooseController;
+use App\Http\Controllers\EmployeeReimbursementController;
+use App\Http\Controllers\HrReimbursementController;
+
 use App\Models\HeroBanner;
 use App\Models\MissionVision;
 use App\Models\Objective;
 use App\Models\Service;
 use App\Models\WhyChoose;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmployeeReimbursementController;
-use App\Http\Controllers\HrReimbursementController;
 
+/**
+ * Sidebar helpers
+ */
+function set_active($route)
+{
+    $current = request()->path();
 
-
-
-/** for side bar menu active */
-function set_active($route) {
-    if (is_array($route)){
-        return in_array(Request::path(), $route) ? 'active' : '';
+    if (is_array($route)) {
+        return in_array($current, $route, true) ? 'active' : '';
     }
-    return Request::path() == $route ? 'active' : '';
+
+    return $current === $route ? 'active' : '';
 }
 
-/** for side bar menu show */
-function set_show($route) {
-    if (is_array($route)){
-        return in_array(Request::path(), $route) ? 'show' : '';
+function set_show($route)
+{
+    $current = request()->path();
+
+    if (is_array($route)) {
+        return in_array($current, $route, true) ? 'show' : '';
     }
-    return Request::path() == $route ? 'show' : '';
+
+    return $current === $route ? 'show' : '';
 }
 
 
-// Public Routes
+// ==================== PUBLIC LANDING PAGE ====================
+
 Route::get('/', function () {
 
     $objectives = Objective::all();
-    $banner = HeroBanner::first();
-    $mission = MissionVision::first(); // ← THIS IS WHAT YOU NEED
-    $why= WhyChoose::first();
-    $services=Service::all();
+    $banner     = HeroBanner::first();
+    $mission    = MissionVision::first();
+    $why        = WhyChoose::first();
+    $services   = Service::all();
 
-    return view('landing.index', compact('objectives', 'banner', 'mission', 'why' , 'services' ));
+    return view('landing.index', compact('objectives', 'banner', 'mission', 'why', 'services'));
 });
 
 
-// Auth Routes
+// ==================== AUTH ROUTES (LOGIN / REGISTER / RESET) ====================
+
 Auth::routes();
 
-// Authenticated Routes
-Route::group(['middleware'=>'auth'], function() {
+// Custom auth routes
+Route::group(['namespace' => 'App\Http\Controllers\Auth'], function () {
 
-    // Home Dashboard
-    Route::get('home', function() {
-        return view('dashboard.home');
-    });
-
-    // User Account Details
-    Route::get('page/account/{user_id}', [AccountController::class, 'profileDetail']);
-
-    // HR Routes (Example: Employee Management, Leaves, etc.)
-    Route::middleware('auth')->prefix('hr/')->group(function () {
-        Route::controller(HRController::class)->group(function () {
-            Route::get('employee/list', 'employeeList')->name('hr/employee/list');
-            Route::post('employee/save', 'employeeSaveRecord')->name('hr/employee/save'); // save employee record
-            Route::post('employee/update', 'employeeUpdateRecord')->name('hr/employee/update'); // update employee record
-            Route::post('employee/delete', 'employeeDeleteRecord')->name('hr/employee/delete'); // delete employee record
-            
-            Route::get('holidays/page', 'holidayPage')->name('hr/holidays/page');
-            Route::post('holidays/save', 'holidaySaveRecord')->name('hr/holidays/save'); // save or update record
-            Route::post('holidays/delete', 'holidayDeleteRecord')->name('hr/holidays/delete'); // delete record
-            
-            Route::get('leave/employee/page', 'leaveEmployee')->name('hr/leave/employee/page');
-            Route::get('create/leave/employee/page', 'createLeaveEmployee')->name('hr/create/leave/employee/page');
-            Route::post('create/leave/employee/save', 'saveRecordLeave')->name('hr/create/leave/employee/save');
-            Route::get('view/detail/leave/employee/{staff_id}', 'viewDetailLeave');
-            
-            Route::get('leave/hr/page', 'leaveHR')->name('hr/leave/hr/page');
-            Route::get('attendance/page', 'attendance')->name('hr/attendance/page');
-            Route::get('create/leave/hr/page', 'createLeaveHR')->name('hr/create/leave/hr/page');
-
-            Route::post('get/information/leave', 'getInformationLeave')->name('hr/get/information/leave');
-        
-            Route::get('attendance/main/page', 'attendanceMain')->name('hr/attendance/main/page');
-            Route::get('department/page', 'department')->name('hr/department/page');
-            Route::post('department/save', 'saveRecorddepartment')->name('hr/department/save');
-            Route::post('department/delete', 'deleteRecorddepartment')->name('hr/department/delete');
-        });
-    });
-
-    // Admin Routes for Objectives CRUD
-
-
-});
-// objective route for admin CMS
-// Display the list of objectives
-
-
-#############################################################################################
-###########################  THIS IS THE ROUTE FOR CMS DASHBOARD ############################
-#############################################################################################
-
-// Display the list of objectives
-Route::get('/admin/objectives', [ObjectiveController::class, 'index'])->name('admin.objectives')->middleware('auth');
-
-
-
-// route for banner 
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/banner', [BannerController::class, 'index'])
-    ->name('admin.hero');
-    
-    Route::put('/admin/banner/update', [BannerController::class, 'update'])
-        ->name('admin.hero.update');
-});
-
-// Mission & Vision (Edit Only)
-Route::get('/admin/mission-vision', [MissionVisionController::class, 'index'])
-->name('admin.mission')->middleware('auth');
-
-Route::post('/admin/mission-vision/update', [MissionVisionController::class, 'update'])
-->name('admin.mission.update')->middleware('auth');
-
-
-// Mission & Vision (Edit Only)
-
-Route::get('/admin/mission-vision', [MissionVisionController::class, 'index'])
-    ->name('admin.mission')
-    ->middleware('auth');
-
-Route::put('/admin/mission-vision/update', [MissionVisionController::class, 'update'])
-    ->name('admin.mission.update')
-    ->middleware('auth');
-
-    // why choose editable 
-
-Route::middleware('auth')->group(function () {
-
-    Route::prefix('admin')->group(function () {
-
-        Route::get('/whychoose', [WhyChooseController::class, 'index'])
-            ->name('admin.whychoose');
-
-        Route::put('/whychoose/update', [WhyChooseController::class, 'update'])
-            ->name('admin.whychoose.update');
-    });
-
-});
-
-// Services 
-
-
-
-
-
-
-
-
-// LIST (dashboard) – CMS/services.blade.php
-Route::get('/admin/services', [ServiceController::class, 'index'])
-    ->name('services.index')
-    ->middleware('auth');
-
-// CREATE page
-Route::get('/admin/services/create', [ServiceController::class, 'create'])
-    ->name('services.create')
-    ->middleware('auth');
-
-// STORE
-Route::post('/admin/services', [ServiceController::class, 'store'])
-    ->name('services.store')
-    ->middleware('auth');
-
-// EDIT page
-Route::get('/admin/services/{id}/edit', [ServiceController::class, 'edit'])
-    ->name('services.edit')
-    ->middleware('auth');
-
-// UPDATE
-Route::put('/admin/services/{id}', [ServiceController::class, 'update'])
-    ->name('services.update')
-    ->middleware('auth');
-
-// DELETE
-Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])
-    ->name('services.destroy')
-    ->middleware('auth');
-
-
-// Single Services
-
-Route::get('/services/{id}', [ServiceController::class, 'show'])
-    ->name('services.show');
-
-
-// Show the form to create a new objective (MUST come BEFORE {id} routes)
-Route::get('/admin/objectives/create', [ObjectiveController::class, 'create'])->name('admin.objectives.create')->middleware('auth');
-
-// Store a new objective in the database
-Route::post('/admin/objectives', [ObjectiveController::class, 'store'])->name('admin.objectives.store')->middleware('auth');
-
-// Update an existing objective in the database
-Route::put('/admin/objectives/{id}', [ObjectiveController::class, 'update'])->name('admin.objectives.update')->middleware('auth');
-
-// Delete an existing objective
-Route::delete('/admin/objectives/{id}', [ObjectiveController::class, 'destroy'])->name('admin.objectives.destroy')->middleware('auth');
-
-// objectives single 
-
-Route::get('/objectives/{id}', [ObjectiveController::class, 'show'])
-    ->name('objectives.show');
-
-// Note: No edit route needed since we're using modals in the blade file
-
-// Authentication Routes
-Route::group(['namespace' => 'App\Http\Controllers\Auth'],function() {
-    // -----------------------------login----------------------------------------//
+    // login
     Route::controller(LoginController::class)->group(function () {
         Route::get('/login', 'login')->name('login');
         Route::post('/login', 'authenticate');
@@ -233,27 +80,218 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'],function() {
         Route::get('logout/page', 'logoutPage')->name('logout/page');
     });
 
-    // ------------------------------ register ----------------------------------//
+    // register
     Route::controller(RegisterController::class)->group(function () {
         Route::get('/register', 'register')->name('register');
-        Route::post('/register','storeUser')->name('register');    
+        Route::post('/register', 'storeUser')->name('register');
     });
 
-    // ----------------------------- forget password ----------------------------//
+    // forget password
     Route::controller(ForgotPasswordController::class)->group(function () {
         Route::get('forget-password', 'getEmail')->name('forget-password');
-        Route::post('forget-password', 'postEmail')->name('forget-password');    
+        Route::post('forget-password', 'postEmail')->name('forget-password');
     });
 
-    // ----------------------------- reset password -----------------------------//
+    // reset password
     Route::controller(ResetPasswordController::class)->group(function () {
         Route::get('reset-password/{token}', 'getPassword');
-        Route::post('reset-password', 'updatePassword');    
+        Route::post('reset-password', 'updatePassword');
     });
 });
 
-// EMPLOYEE routes
-Route::middleware(['auth', 'role:Employee'])->group(function () {
+
+// ==================== ROLE-BASED HOME REDIRECT ====================
+//
+// /home → depende sa role_name:
+//  - HR, Admin, Superadmin → HR dashboard
+//  - Employee, Normal User → Employee dashboard
+//  - else → 403
+//
+
+Route::get('/home', function () {
+
+    $user     = Auth::user();
+    $roleName = $user->role_name ?? null;
+
+    if (in_array($roleName, ['HR', 'Admin', 'Superadmin', 'Super Admin'], true)) {
+        return redirect()->route('hr.dashboard');
+    }
+
+    if (in_array($roleName, ['Employee', 'Normal User'], true)) {
+        return redirect()->route('employee.dashboard');
+    }
+
+    abort(403, 'Unauthorized.');
+})->middleware('auth')->name('home');
+
+
+// ==================== DASHBOARDS ====================
+
+// EMPLOYEE DASHBOARD
+Route::middleware('auth')->get('/employee/dashboard', function () {
+
+    $user     = Auth::user();
+    $roleName = $user->role_name ?? null;
+
+    // Employee / Normal User / HR / Admin / Superadmin / Super Admin → allowed
+    if (! in_array($roleName, [
+        'Employee',
+        'Normal User',
+        'HR',
+        'Admin',
+        'Superadmin',
+        'Super Admin',
+    ], true)) {
+        abort(403, 'Unauthorized.');
+    }
+
+    // dummy data para hindi mag-error yung Blade
+    $todayAttendance      = null;
+    $highPriorityTasks    = collect([]);
+    $completedTodayCount  = 0;
+    $pendingTodayCount    = 0;
+
+    return view('dashboard.employee', compact(
+        'todayAttendance',
+        'highPriorityTasks',
+        'completedTodayCount',
+        'pendingTodayCount'
+    ));
+
+})->name('employee.dashboard');
+
+// HR DASHBOARD
+Route::middleware('auth')->get('/hr/dashboard', function () {
+
+    $user     = Auth::user();
+    $roleName = $user->role_name ?? null;
+
+    // HR + Admin + Superadmin
+    if (! in_array($roleName, ['HR', 'Admin', 'Superadmin', 'Super Admin'], true)) {
+        abort(403, 'Unauthorized.');
+    }
+
+    return view('dashboard.hr');
+})->name('hr.dashboard');
+
+
+// ==================== AUTHENTICATED GROUP (COMMON) ====================
+
+Route::group(['middleware' => 'auth'], function () {
+
+    // User Account Details
+    Route::get('page/account/{user_id}', [AccountController::class, 'profileDetail']);
+
+    // HR Routes (Employee Management, Leaves, etc.)
+    Route::prefix('hr')->group(function () {
+        Route::controller(HRController::class)->group(function () {
+            Route::get('employee/list', 'employeeList')->name('hr/employee/list');
+            Route::post('employee/save', 'employeeSaveRecord')->name('hr/employee/save');
+            Route::post('employee/update', 'employeeUpdateRecord')->name('hr/employee/update');
+            Route::post('employee/delete', 'employeeDeleteRecord')->name('hr/employee/delete');
+
+            Route::get('holidays/page', 'holidayPage')->name('hr/holidays/page');
+            Route::post('holidays/save', 'holidaySaveRecord')->name('hr/holidays/save');
+            Route::post('holidays/delete', 'holidayDeleteRecord')->name('hr/holidays/delete');
+
+            Route::get('leave/employee/page', 'leaveEmployee')->name('hr/leave/employee/page');
+            Route::get('create/leave/employee/page', 'createLeaveEmployee')->name('hr/create/leave/employee/page');
+            Route::post('create/leave/employee/save', 'saveRecordLeave')->name('hr/create/leave/employee/save');
+            Route::get('view/detail/leave/employee/{staff_id}', 'viewDetailLeave');
+
+            Route::get('leave/hr/page', 'leaveHR')->name('hr/leave/hr/page');
+            Route::get('attendance/page', 'attendance')->name('hr/attendance/page');
+            Route::get('create/leave/hr/page', 'createLeaveHR')->name('hr/create/leave/hr/page');
+
+            Route::post('get/information/leave', 'getInformationLeave')->name('hr/get/information/leave');
+
+            Route::get('attendance/main/page', 'attendanceMain')->name('hr/attendance/main/page');
+            Route::get('department/page', 'department')->name('hr/department/page');
+            Route::post('department/save', 'saveRecorddepartment')->name('hr/department/save');
+            Route::post('department/delete', 'deleteRecorddepartment')->name('hr/department/delete');
+        });
+    });
+
+});
+
+
+// ==================== CMS: OBJECTIVES / BANNER / MISSION-VISION / WHYCHOOSE / SERVICES ====================
+
+// CMS routes (admin side) – lahat naka-auth lang muna
+Route::middleware('auth')->group(function () {
+
+    // OBJECTIVES (CMS)
+    Route::get('/admin/objectives', [ObjectiveController::class, 'index'])
+        ->name('admin.objectives');
+
+    Route::get('/admin/objectives/create', [ObjectiveController::class, 'create'])
+        ->name('admin.objectives.create');
+
+    Route::post('/admin/objectives', [ObjectiveController::class, 'store'])
+        ->name('admin.objectives.store');
+
+    Route::put('/admin/objectives/{id}', [ObjectiveController::class, 'update'])
+        ->name('admin.objectives.update');
+
+    Route::delete('/admin/objectives/{id}', [ObjectiveController::class, 'destroy'])
+        ->name('admin.objectives.destroy');
+
+    // BANNER (Hero)
+    Route::get('/admin/banner', [BannerController::class, 'index'])
+        ->name('admin.hero');
+
+    Route::put('/admin/banner/update', [BannerController::class, 'update'])
+        ->name('admin.hero.update');
+
+    // Mission & Vision
+    Route::get('/admin/mission-vision', [MissionVisionController::class, 'index'])
+        ->name('admin.mission');
+
+    Route::put('/admin/mission-vision/update', [MissionVisionController::class, 'update'])
+        ->name('admin.mission.update');
+
+    // WHY CHOOSE (CMS)
+    Route::prefix('admin')->group(function () {
+        Route::get('/whychoose', [WhyChooseController::class, 'index'])
+            ->name('admin.whychoose');
+
+        Route::put('/whychoose/update', [WhyChooseController::class, 'update'])
+            ->name('admin.whychoose.update');
+    });
+
+    // SERVICES (CMS CRUD)
+    Route::get('/admin/services', [ServiceController::class, 'index'])
+        ->name('services.index');
+
+    Route::get('/admin/services/create', [ServiceController::class, 'create'])
+        ->name('services.create');
+
+    Route::post('/admin/services', [ServiceController::class, 'store'])
+        ->name('services.store');
+
+    Route::get('/admin/services/{id}/edit', [ServiceController::class, 'edit'])
+        ->name('services.edit');
+
+    Route::put('/admin/services/{id}', [ServiceController::class, 'update'])
+        ->name('services.update');
+
+    Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])
+        ->name('services.destroy');
+});
+
+// objectives single (frontend)
+Route::get('/objectives/{id}', [ObjectiveController::class, 'show'])
+    ->name('objectives.show');
+
+// Single Service (frontend)
+Route::get('/services/{id}', [ServiceController::class, 'show'])
+    ->name('services.show');
+
+
+// ==================== REIMBURSEMENTS ====================
+
+// EMPLOYEE reimbursements (auth lang muna)
+Route::middleware(['auth'])->group(function () {
     Route::get('/employee/reimbursements', [EmployeeReimbursementController::class, 'index'])
         ->name('employee.reimbursements.index');
 
@@ -267,48 +305,44 @@ Route::middleware(['auth', 'role:Employee'])->group(function () {
         ->name('employee.reimbursements.show');
 });
 
-// REIMBURSEMENT
+// HR REIMBURSEMENTS (auth lang muna)
 Route::middleware(['auth'])->group(function () {
 
-    // HR REIMBURSEMENTS
-    Route::get('/hr/reimbursements', [HRReimbursementController::class, 'index'])
+    Route::get('/hr/reimbursements', [HrReimbursementController::class, 'index'])
         ->name('hr.reimbursements.index');
 
-    // optional pa rin kung gusto mo direct approve/deny
-    Route::post('/hr/reimbursements/{reimbursement}/approve', [HRReimbursementController::class, 'approve'])
+    Route::post('/hr/reimbursements/{reimbursement}/approve', [HrReimbursementController::class, 'approve'])
         ->name('hr.reimbursements.approve');
 
-    Route::post('/hr/reimbursements/{reimbursement}/deny', [HRReimbursementController::class, 'deny'])
+    Route::post('/hr/reimbursements/{reimbursement}/deny', [HrReimbursementController::class, 'deny'])
         ->name('hr.reimbursements.deny');
 
-    // ✅ NEW – modal “Edit Status”
-    Route::post('/hr/reimbursements/{reimbursement}/update-status', [HRReimbursementController::class, 'updateStatus'])
+    Route::post('/hr/reimbursements/{reimbursement}/update-status', [HrReimbursementController::class, 'updateStatus'])
         ->name('hr.reimbursements.updateStatus');
-
-    // EMPLOYEE reimbursements (yung ginawa na natin)
-    Route::get('/employee/reimbursements', [EmployeeReimbursementController::class, 'index'])
-        ->name('employee.reimbursements.index');
-
-    Route::post('/employee/reimbursements', [EmployeeReimbursementController::class, 'store'])
-        ->name('employee.reimbursements.store');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers'],function()
-{
-    // -------------------------- main dashboard ----------------------//
-    Route::controller(HomeController::class)->group(function () {
-        Route::get('/home', 'index')->middleware('auth')->name('home');
-    });
 
-    // -------------------------- pages ----------------------//
-    Route::controller(AccountController::class)->group(function () {
-        Route::get('page/account/{user_id}', 'profileDetail')->middleware('auth');
-    });
-}
+// ==================== EMPLOYEE ATTENDANCE (BUTTONS SA DASHBOARD) ====================
 
-// reimbursment HR 
+Route::middleware('auth')->group(function () {
 
+    // EMPLOYEE ATTENDANCE – SIGN IN
+    Route::post('/employee/attendance/signin', function (Request $request) {
 
+        $user = Auth::user();
 
+        // TODO: real Attendance logic (DB save)
 
-);
+        return back()->with('success', 'You have signed in successfully.');
+    })->name('employee.attendance.signin');
+
+    // EMPLOYEE ATTENDANCE – SIGN OUT
+    Route::post('/employee/attendance/signout', function (Request $request) {
+
+        $user = Auth::user();
+
+        // TODO: update latest attendance record sign_out_at
+
+        return back()->with('success', 'You have signed out successfully.');
+    })->name('employee.attendance.signout');
+});

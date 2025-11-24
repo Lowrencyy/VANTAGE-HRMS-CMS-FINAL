@@ -10,10 +10,10 @@
             {{-- Page Header --}}
             <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
                 <div class="grow">
-                    <h5 class="text-16">Employee Dashboard</h5>
-                    <p class="mt-1 text-sm text-slate-500 dark:text-zink-200">
-                        Welcome back,
-                        <span class="font-semibold">
+                    <h5 class="text-16 font-semibold tracking-tight">Employee Dashboard</h5>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-zink-200 flex items-center gap-1">
+                        <span>Welcome back,</span>
+                        <span class="font-semibold text-slate-800 dark:text-zink-50">
                             {{ auth()->user()->name ?? Session::get('name') ?? 'Employee' }}
                         </span>
                     </p>
@@ -23,7 +23,7 @@
                         class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
                         <a href="#!" class="text-slate-400 dark:text-zink-200">Dashboard</a>
                     </li>
-                    <li class="text-slate-700 dark:text-zink-100">
+                    <li class="text-slate-700 dark:text-zink-100 font-medium">
                         Employee
                     </li>
                 </ul>
@@ -44,6 +44,13 @@
                 </div>
             @endif
 
+            @php
+                $completedToday = $completedTodayCount ?? 0;
+                $pendingToday = $pendingTodayCount ?? 0;
+                $totalTasksToday = $completedToday + $pendingToday;
+                $completionRate = $totalTasksToday > 0 ? round(($completedToday / $totalTasksToday) * 100) : 0;
+            @endphp
+
             <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5 gap-y-5">
 
                 {{-- LEFT COLUMN: Attendance + Tasks --}}
@@ -53,86 +60,153 @@
                     <div class="grid grid-cols-12 gap-5">
 
                         {{-- Live PHT Time --}}
-                        <div class="col-span-12 md:col-span-6 card">
-                            <div class="card-body">
-                                <p class="text-slate-500 dark:text-slate-200 text-sm">Current Time (PHT)</p>
-                                <h3 class="mt-2 mb-1 text-2xl font-semibold" id="pht-time-display">
-                                    {{-- JS will update this in real-time --}}
-                                    --
-                                </h3>
-                                <p class="text-xs text-slate-500 dark:text-zink-200" id="pht-date-display">--</p>
-                                <p class="mt-3 text-xs text-slate-400 dark:text-zink-300">
-                                    Timezone: Asia/Manila (UTC+8)
-                                </p>
+                        <div class="col-span-12 md:col-span-6">
+                            <div
+                                class="card relative overflow-hidden border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
+                                <div
+                                    class="absolute -right-6 -top-6 size-16 rounded-full bg-custom-100/30 dark:bg-custom-500/10 blur-xl pointer-events-none">
+                                </div>
+                                <div class="card-body relative">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div>
+                                            <p class="text-xs font-medium tracking-wide text-slate-500 dark:text-slate-200 uppercase">
+                                                Current Time (PHT)
+                                            </p>
+                                            <p id="pht-greeting"
+                                               class="mt-1 text-xs text-slate-400 dark:text-zink-300">
+                                                {{-- JS greeting --}}
+                                                --
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="flex items-center justify-center rounded-full size-10 bg-custom-100 text-custom-500 dark:bg-custom-500/20">
+                                            <i data-lucide="clock-4" class="size-5"></i>
+                                        </div>
+                                    </div>
+
+                                    <h3 id="pht-time-display"
+                                        class="mt-1 mb-1 text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-zink-50 leading-none">
+                                        --
+                                    </h3>
+                                    <p id="pht-date-display"
+                                       class="mt-1 text-xs font-medium text-slate-500 dark:text-zink-200 uppercase tracking-[0.16em]">
+                                        --
+                                    </p>
+
+                                    <p class="mt-3 text-[11px] text-slate-400 dark:text-zink-300">
+                                        Timezone:
+                                        <span class="font-semibold text-slate-600 dark:text-zink-100">
+                                            Asia/Manila (UTC+8)
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
                         {{-- Attendance Card --}}
-                        <div class="col-span-12 md:col-span-6 card">
-                            <div class="card-body">
-                                <div class="flex items-center justify-between mb-3">
-                                    <div>
-                                        <p class="text-slate-500 dark:text-slate-200 text-sm">Today Attendance</p>
-                                        <h6 class="mt-1 text-15 font-semibold">
-                                            {{ now('Asia/Manila')->format('M d, Y') }}
-                                        </h6>
+                        <div class="col-span-12 md:col-span-6">
+                            <div
+                                class="card border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
+                                <div class="card-body">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div>
+                                            <p class="text-xs font-medium tracking-wide text-slate-500 dark:text-slate-200 uppercase">
+                                                Today Attendance
+                                            </p>
+                                            <h6 class="mt-1 text-[15px] font-semibold text-slate-900 dark:text-zink-50">
+                                                {{ now('Asia/Manila')->format('M d, Y') }}
+                                            </h6>
+                                        </div>
+                                        <div
+                                            class="flex items-center justify-center rounded-full size-10 bg-custom-100 text-custom-500 dark:bg-custom-500/20">
+                                            <i data-lucide="badge-check" class="size-5"></i>
+                                        </div>
                                     </div>
-                                    <div
-                                        class="flex items-center justify-center rounded-full size-10 bg-custom-100 text-custom-500 dark:bg-custom-500/20">
-                                        <i data-lucide="clock-4" class="size-5"></i>
-                                    </div>
-                                </div>
 
-                                <div class="grid grid-cols-2 gap-3 text-sm">
-                                    <div>
-                                        <p class="text-slate-500 dark:text-zink-200 text-xs mb-1">Sign In</p>
-                                        <p class="font-medium">
-                                            {{ optional($todayAttendance->sign_in_at ?? null)->timezone('Asia/Manila')->format('h:i A') ?? '--' }}
+                                    <div class="grid grid-cols-2 gap-3 text-sm">
+                                        <div>
+                                            <p class="text-slate-500 dark:text-zink-200 text-xs mb-1 uppercase tracking-wide">
+                                                Sign In
+                                            </p>
+                                            <p class="font-semibold text-slate-900 dark:text-zink-50">
+                                                {{ $todayAttendance?->sign_in_at?->timezone('Asia/Manila')?->format('h:i A') ?? '--' }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="text-slate-500 dark:text-zink-200 text-xs mb-1 uppercase tracking-wide">
+                                                Sign Out
+                                            </p>
+                                            <p class="font-semibold text-slate-900 dark:text-zink-50">
+                                                {{ $todayAttendance?->sign_out_at?->timezone('Asia/Manila')?->format('h:i A') ?? '--' }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-2 mt-4">
+                                        {{-- SIGN IN --}}
+                                        <form action="{{ route('employee.attendance.signin') }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="px-3.5 py-1.5 text-xs font-semibold text-white rounded-md btn bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600 shadow-sm">
+                                                Sign In
+                                            </button>
+                                        </form>
+
+                                        {{-- SIGN OUT --}}
+                                        <form action="{{ route('employee.attendance.signout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="px-3.5 py-1.5 text-xs font-semibold text-white rounded-md btn bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 shadow-sm">
+                                                Sign Out
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    @if(!empty($todayAttendance?->status))
+                                        <p class="mt-3 text-xs text-slate-500 dark:text-zink-200 flex items-center gap-1">
+                                            <span>Status:</span>
+                                            @php
+                                                $attendanceStatus = strtolower($todayAttendance->status);
+                                            @endphp
+                                            @if($attendanceStatus === 'present')
+                                                <span
+                                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-600 border border-green-200 dark:bg-green-500/20 dark:text-green-300 dark:border-green-500/30">
+                                                    <span class="size-1.5 rounded-full bg-green-500 mr-1.5"></span>
+                                                    Present
+                                                </span>
+                                            @elseif($attendanceStatus === 'late')
+                                                <span
+                                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-yellow-100 text-yellow-600 border border-yellow-200 dark:bg-yellow-500/20 dark:text-yellow-300 dark:border-yellow-500/30">
+                                                    <span class="size-1.5 rounded-full bg-yellow-500 mr-1.5"></span>
+                                                    Late
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 dark:bg-zink-600/60 dark:text-zink-50 dark:border-zink-500">
+                                                    {{ ucfirst($todayAttendance->status) }}
+                                                </span>
+                                            @endif
                                         </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-slate-500 dark:text-zink-200 text-xs mb-1">Sign Out</p>
-                                        <p class="font-medium">
-                                            {{ optional($todayAttendance->sign_out_at ?? null)->timezone('Asia/Manila')->format('h:i A') ?? '--' }}
-                                        </p>
-                                    </div>
+                                    @endif
                                 </div>
-
-                                <div class="flex items-center gap-2 mt-4">
-                                    {{-- SIGN IN --}}
-                                    <form action="{{ route('employee.attendance.signin') }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                                class="px-3 py-1.5 text-xs text-white btn bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600">
-                                            Sign In
-                                        </button>
-                                    </form>
-
-                                    {{-- SIGN OUT --}}
-                                    <form action="{{ route('employee.attendance.signout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                                class="px-3 py-1.5 text-xs text-white btn bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600">
-                                            Sign Out
-                                        </button>
-                                    </form>
-                                </div>
-
-                                @if(!empty($todayAttendance->status))
-                                    <p class="mt-3 text-xs text-slate-500 dark:text-zink-200">
-                                        Status:
-                                        <span class="font-semibold">{{ ucfirst($todayAttendance->status) }}</span>
-                                    </p>
-                                @endif
                             </div>
                         </div>
                     </div>
 
                     {{-- High Priority Tasks --}}
-                    <div class="card">
+                    <div
+                        class="card border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
                         <div class="card-body">
                             <div class="flex items-center gap-2 mb-4">
-                                <h6 class="text-15 grow">Your Tasks – High Priority</h6>
+                                <h6 class="text-15 font-semibold grow flex items-center gap-2">
+                                    <span>Your Tasks – High Priority</span>
+                                    @if(isset($highPriorityTasks) && $highPriorityTasks->count())
+                                        <span
+                                            class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 dark:bg-zink-600 dark:text-zink-100 border border-slate-200/60 dark:border-zink-500">
+                                            {{ $highPriorityTasks->count() }} tasks
+                                        </span>
+                                    @endif
+                                </h6>
                                 <span
                                     class="px-2.5 py-0.5 inline-flex items-center text-xs font-medium rounded-full border bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/30">
                                     <i data-lucide="alert-triangle" class="size-3 mr-1.5"></i>
@@ -144,43 +218,43 @@
                                 <div class="-mx-5 overflow-x-auto">
                                     <table class="w-full whitespace-nowrap">
                                         <thead
-                                            class="ltr:text-left rtl:text-right bg-slate-100 text-slate-500 dark:text-zink-200 dark:bg-zink-600">
+                                            class="ltr:text-left rtl:text-right bg-slate-100 text-slate-500 dark:text-zink-200 dark:bg-zink-600/80">
                                         <tr>
-                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-xs border-y border-slate-200 dark:border-zink-500">
+                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-[11px] uppercase border-y border-slate-200 dark:border-zink-500">
                                                 Task
                                             </th>
-                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-xs border-y border-slate-200 dark:border-zink-500">
+                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-[11px] uppercase border-y border-slate-200 dark:border-zink-500">
                                                 Due Date
                                             </th>
-                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-xs border-y border-slate-200 dark:border-zink-500">
+                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-[11px] uppercase border-y border-slate-200 dark:border-zink-500">
                                                 Priority
                                             </th>
-                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-xs border-y border-slate-200 dark:border-zink-500">
+                                            <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-[11px] uppercase border-y border-slate-200 dark:border-zink-500">
                                                 Status
                                             </th>
                                             <th
-                                                class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-xs border-y border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">
+                                                class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold text-[11px] uppercase border-y border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">
                                                 Action
                                             </th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="text-sm">
                                         @foreach($highPriorityTasks as $task)
-                                            <tr class="border-y border-slate-200 dark:border-zink-500">
+                                            <tr class="border-y border-slate-200 dark:border-zink-500 hover:bg-slate-50/80 dark:hover:bg-zink-600/60 transition-colors">
                                                 <td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
                                                     <div class="flex flex-col">
-                                                        <span class="font-medium text-sm">
+                                                        <span class="font-medium text-sm text-slate-900 dark:text-zink-50">
                                                             {{ $task->title }}
                                                         </span>
                                                         @if($task->description)
-                                                            <span class="text-xs text-slate-500 dark:text-zink-200 line-clamp-2">
+                                                            <span class="text-xs text-slate-500 dark:text-zink-200 line-clamp-2 mt-0.5">
                                                                 {{ $task->description }}
                                                             </span>
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 text-sm">
-                                                    {{ optional($task->due_date)->timezone('Asia/Manila')->format('M d, Y') ?? '—' }}
+                                                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 text-sm text-slate-700 dark:text-zink-100">
+                                                    {{ $task->due_date?->timezone('Asia/Manila')?->format('M d, Y') ?? '—' }}
                                                 </td>
                                                 <td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
                                                     <span
@@ -224,7 +298,7 @@
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <button type="submit"
-                                                                        class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-green-100 dark:bg-green-500/20 text-green-600 hover:bg-green-200">
+                                                                        class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-green-100 dark:bg-green-500/20 text-green-600 hover:bg-green-200 dark:hover:bg-green-500/30">
                                                                     <i data-lucide="check" class="size-4"></i>
                                                                 </button>
                                                             </form>
@@ -245,38 +319,107 @@
                     </div>
                 </div>
 
-                {{-- RIGHT COLUMN: Simple Summary (optional / static for now) --}}
+                {{-- RIGHT COLUMN: Summary + Extras --}}
                 <div class="col-span-12 lg:col-span-4 2xl:col-span-3 space-y-5">
 
-                    {{-- Quick Stats --}}
-                    <div class="card">
+                    {{-- Today Summary --}}
+                    <div
+                        class="card border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
                         <div class="card-body">
-                            <h6 class="mb-3 text-15">Today Summary</h6>
+                            <div class="flex items-center justify-between mb-3">
+                                <h6 class="text-15 font-semibold">Today Summary</h6>
+                                <span class="text-[11px] text-slate-400 dark:text-zink-300">
+                                    {{ now('Asia/Manila')->format('D, M d') }}
+                                </span>
+                            </div>
                             <div class="grid grid-cols-3 gap-4 text-center">
                                 <div>
-                                    <p class="text-xs text-slate-500 dark:text-zink-200">Tasks</p>
-                                    <h5 class="mt-1 text-lg font-semibold">
-                                        {{ $highPriorityTasks->count() ?? 0 }}
+                                    <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-zink-200">Tasks</p>
+                                    <h5 class="mt-1 text-lg font-semibold text-slate-900 dark:text-zink-50">
+                                        {{ isset($highPriorityTasks) ? $highPriorityTasks->count() : 0 }}
                                     </h5>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-slate-500 dark:text-zink-200">Completed</p>
-                                    <h5 class="mt-1 text-lg font-semibold">
-                                        {{ $completedTodayCount ?? 0 }}
+                                    <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-zink-200">Completed</p>
+                                    <h5 class="mt-1 text-lg font-semibold text-green-600 dark:text-green-300">
+                                        {{ $completedToday }}
                                     </h5>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-slate-500 dark:text-zink-200">Pending</p>
-                                    <h5 class="mt-1 text-lg font-semibold">
-                                        {{ $pendingTodayCount ?? 0 }}
+                                    <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-zink-200">Pending</p>
+                                    <h5 class="mt-1 text-lg font-semibold text-yellow-600 dark:text-yellow-300">
+                                        {{ $pendingToday }}
                                     </h5>
                                 </div>
+                            </div>
+
+                            {{-- Progress bar --}}
+                            <div class="mt-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="text-[11px] font-medium text-slate-500 dark:text-zink-200 uppercase tracking-wide">
+                                        Task Completion
+                                    </p>
+                                    <span class="text-[11px] font-semibold text-slate-700 dark:text-zink-100">
+                                        {{ $completionRate }}%
+                                    </span>
+                                </div>
+                                <div class="w-full h-2.5 rounded-full bg-slate-100 dark:bg-zink-600 overflow-hidden">
+                                    <div class="h-2.5 rounded-full bg-custom-500/80 dark:bg-custom-500 transition-all duration-300"
+                                         style="width: {{ $completionRate }}%;"></div>
+                                </div>
+                                @if($totalTasksToday > 0)
+                                    <p class="mt-2 text-[11px] text-slate-500 dark:text-zink-300">
+                                        {{ $completedToday }} of {{ $totalTasksToday }} tasks completed today.
+                                    </p>
+                                @else
+                                    <p class="mt-2 text-[11px] text-slate-500 dark:text-zink-300">
+                                        No tasks logged for today yet.
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>
 
-                    {{-- Small Note / Help Card --}}
-                    <div class="card">
+                    {{-- Quick Links (placeholder routes for now) --}}
+                    <div
+                        class="card border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
+                        <div class="card-body">
+                            <h6 class="mb-3 text-15 font-semibold flex items-center gap-2">
+                                <i data-lucide="sparkles" class="size-4 text-custom-500"></i>
+                                Quick Links
+                            </h6>
+                            <div class="grid grid-cols-1 gap-2">
+                                <a href="#"
+                                   class="flex items-center justify-between px-3 py-2.5 rounded-md bg-slate-50 hover:bg-custom-100/70 text-sm font-medium text-slate-700 dark:bg-zink-600/70 dark:text-zink-50 dark:hover:bg-custom-500/20 transition">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="user-circle-2" class="size-4"></i>
+                                        My Profile
+                                    </span>
+                                    <i data-lucide="chevron-right" class="size-4 opacity-60"></i>
+                                </a>
+                                <a href="#"
+                                   class="flex items-center justify-between px-3 py-2.5 rounded-md bg-slate-50 hover:bg-custom-100/70 text-sm font-medium text-slate-700 dark:bg-zink-600/70 dark:text-zink-50 dark:hover:bg-custom-500/20 transition">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="calendar-days" class="size-4"></i>
+                                        My Attendance
+                                    </span>
+                                    <i data-lucide="chevron-right" class="size-4 opacity-60"></i>
+                                </a>
+                                <a href="#"
+                                   class="flex items-center justify-between px-3 py-2.5 rounded-md bg-slate-50 hover:bg-custom-100/70 text-sm font-medium text-slate-700 dark:bg-zink-600/70 dark:text-zink-50 dark:hover:bg-custom-500/20 transition">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="clipboard-list" class="size-4"></i>
+                                        My Tasks
+                                    </span>
+                                    <i data-lucide="chevron-right" class="size-4 opacity-60"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Reminder --}}
+                    <div
+                        class="card border border-slate-200/80 dark:border-zink-500/60 shadow-sm hover:shadow-md transition-all duration-200">
                         <div class="card-body flex gap-3">
                             <div class="shrink-0">
                                 <div
@@ -285,7 +428,7 @@
                                 </div>
                             </div>
                             <div class="grow">
-                                <h6 class="mb-1 text-15">Reminder</h6>
+                                <h6 class="mb-1 text-15 font-semibold">Reminder</h6>
                                 <p class="text-xs text-slate-500 dark:text-zink-200">
                                     Don’t forget to <span class="font-semibold">sign out</span> at the end of your shift
                                     and mark completed tasks before leaving.
@@ -324,16 +467,37 @@
                 };
 
                 const now = new Date();
+
                 const timeStr = now.toLocaleTimeString('en-PH', optionsTime);
                 const dateStr = now.toLocaleDateString('en-PH', optionsDate);
 
+                const hour24 = parseInt(
+                    now.toLocaleString('en-PH', {
+                        hour: '2-digit',
+                        hour12: false,
+                        timeZone: 'Asia/Manila'
+                    }),
+                    10
+                );
+
+                let greeting = 'Welcome';
+                if (hour24 >= 5 && hour24 < 12) {
+                    greeting = 'Good morning';
+                } else if (hour24 >= 12 && hour24 < 18) {
+                    greeting = 'Good afternoon';
+                } else {
+                    greeting = 'Good evening';
+                }
+
                 const timeEl = document.getElementById('pht-time-display');
                 const dateEl = document.getElementById('pht-date-display');
+                const greetingEl = document.getElementById('pht-greeting');
 
                 if (timeEl) timeEl.textContent = timeStr;
                 if (dateEl) dateEl.textContent = dateStr;
+                if (greetingEl) greetingEl.textContent = greeting + ', {{ auth()->user()->name ?? Session::get('name') ?? 'Employee' }}';
             } catch (e) {
-                // fallback
+                // silent fallback
             }
         }
 
