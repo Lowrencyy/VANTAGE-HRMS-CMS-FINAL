@@ -210,6 +210,11 @@ Route::put('/admin/objectives/{id}', [ObjectiveController::class, 'update'])->na
 // Delete an existing objective
 Route::delete('/admin/objectives/{id}', [ObjectiveController::class, 'destroy'])->name('admin.objectives.destroy')->middleware('auth');
 
+// objectives single 
+
+Route::get('/objectives/{id}', [ObjectiveController::class, 'show'])
+    ->name('objectives.show');
+
 // Note: No edit route needed since we're using modals in the blade file
 
 // Authentication Routes

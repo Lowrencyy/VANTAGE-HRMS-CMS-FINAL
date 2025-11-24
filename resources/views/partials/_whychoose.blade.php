@@ -1,4 +1,4 @@
-<div class="video-area extra-padding text-center default-padding faq-area bg-gray bg-fixed shadow dark text-light"                  
+<div class="video-area extra-padding text-center default-padding faq-area  bg-fixed shadow dark text-light"                  
 {{-- in this background image --}}
      style="background-image: url({{ asset(str_replace('public/', 'storage/', $why->background_image)) }});">
     <div class="container">
@@ -19,7 +19,7 @@
 </div>
 
 
-<div class="features-area overflow-hidden bg-gray default-padding">
+<div class="features-area overflow-hidden  default-padding">
 
     <div class="fixed-shape shape left bottom">
         <img src="{{ asset('main/assets/img/shape/3.png') }}" alt="Shape">

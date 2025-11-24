@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroBanner;
+use App\Models\MissionVision;
 use App\Models\Objective;
+use App\Models\Service;
+use App\Models\WhyChoose;
 use Illuminate\Http\Request;
 
 class ObjectiveController extends Controller
@@ -123,5 +127,27 @@ class ObjectiveController extends Controller
             flash()->error('Failed to delete objective. Please try again.');
             return redirect()->back();
         }
+    }
+
+     public function show($id)
+    {
+        // Selected objective
+        $objective = Objective::findOrFail($id);
+
+        // Shared data for header / partials
+        $objectives = Objective::all();
+        $banner     = HeroBanner::first();
+        $mission    = MissionVision::first();
+        $why        = WhyChoose::first();
+        $services   = Service::all();
+
+        return view('landing.singleobjective', compact(
+            'objective',
+            'objectives',
+            'banner',
+            'mission',
+            'why',
+            'services'
+        ));
     }
 }

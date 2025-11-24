@@ -22,6 +22,7 @@
 
     
     @include('partials._services')
+    @include('partials._contactus')
 
     @include('partials._footer')
 </x-layout>
