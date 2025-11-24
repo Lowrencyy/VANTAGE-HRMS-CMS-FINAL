@@ -9,7 +9,7 @@
 
             <div class="mt-8 text-center">
                 <h4 class="mb-1 text-custom-500 dark:text-custom-500">Create your free account</h4>
-                <p class="text-slate-500 dark:text-zink-200">Get your free Starcode account now</p>
+                <p class="text-slate-500 dark:text-zink-200">If You Dont Have Account Please Contact Administrator</p>
             </div>
 
             <form action="{{ route('register') }}" class="mt-10" method="POST">
