@@ -35,6 +35,7 @@
 
                 {{-- RIGHT CONTENT --}}
                 <div class="col-lg-6 info">
+                      <h5>Our Services</h5>
                     <h2 class="title">{{ $service->title }}</h2>
 
                     <p>

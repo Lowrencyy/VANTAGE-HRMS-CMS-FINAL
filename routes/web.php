@@ -19,6 +19,8 @@ use App\Models\Service;
 use App\Models\WhyChoose;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeReimbursementController;
+use App\Http\Controllers\HrReimbursementController;
 
 
 
@@ -161,6 +163,10 @@ Route::middleware('auth')->group(function () {
 
 
 
+
+
+
+
 // LIST (dashboard) – CMS/services.blade.php
 Route::get('/admin/services', [ServiceController::class, 'index'])
     ->name('services.index')
@@ -246,6 +252,47 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'],function() {
     });
 });
 
+// EMPLOYEE routes
+Route::middleware(['auth', 'role:Employee'])->group(function () {
+    Route::get('/employee/reimbursements', [EmployeeReimbursementController::class, 'index'])
+        ->name('employee.reimbursements.index');
+
+    Route::get('/employee/reimbursements/create', [EmployeeReimbursementController::class, 'create'])
+        ->name('employee.reimbursements.create');
+
+    Route::post('/employee/reimbursements', [EmployeeReimbursementController::class, 'store'])
+        ->name('employee.reimbursements.store');
+
+    Route::get('/employee/reimbursements/{reimbursement}', [EmployeeReimbursementController::class, 'show'])
+        ->name('employee.reimbursements.show');
+});
+
+// REIMBURSEMENT
+Route::middleware(['auth'])->group(function () {
+
+    // HR REIMBURSEMENTS
+    Route::get('/hr/reimbursements', [HRReimbursementController::class, 'index'])
+        ->name('hr.reimbursements.index');
+
+    // optional pa rin kung gusto mo direct approve/deny
+    Route::post('/hr/reimbursements/{reimbursement}/approve', [HRReimbursementController::class, 'approve'])
+        ->name('hr.reimbursements.approve');
+
+    Route::post('/hr/reimbursements/{reimbursement}/deny', [HRReimbursementController::class, 'deny'])
+        ->name('hr.reimbursements.deny');
+
+    // ✅ NEW – modal “Edit Status”
+    Route::post('/hr/reimbursements/{reimbursement}/update-status', [HRReimbursementController::class, 'updateStatus'])
+        ->name('hr.reimbursements.updateStatus');
+
+    // EMPLOYEE reimbursements (yung ginawa na natin)
+    Route::get('/employee/reimbursements', [EmployeeReimbursementController::class, 'index'])
+        ->name('employee.reimbursements.index');
+
+    Route::post('/employee/reimbursements', [EmployeeReimbursementController::class, 'store'])
+        ->name('employee.reimbursements.store');
+});
+
 Route::group(['namespace' => 'App\Http\Controllers'],function()
 {
     // -------------------------- main dashboard ----------------------//
@@ -257,4 +304,10 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     Route::controller(AccountController::class)->group(function () {
         Route::get('page/account/{user_id}', 'profileDetail')->middleware('auth');
     });
-});
+}
+
+// reimbursment HR 
+
+
+
+);

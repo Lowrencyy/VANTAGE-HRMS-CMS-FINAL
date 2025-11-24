@@ -1,6 +1,7 @@
-<div class="video-area extra-padding text-center default-padding faq-area  bg-fixed shadow dark text-light"                  
-{{-- in this background image --}}
-     style="background-image: url({{ asset(str_replace('public/', 'storage/', $why->background_image)) }});">
+<div class="video-area extra-padding text-center default-padding faq-area bg-fixed shadow dark text-light"
+     style="background-image: url('{{ $why && $why->background_image 
+        ? asset($why->background_image) 
+        : asset('main/assets/img/your-default-bg.jpg') }}');">
     <div class="container">
         <div class="content">
             <div class="row">

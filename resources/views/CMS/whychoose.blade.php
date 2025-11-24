@@ -21,7 +21,7 @@
             group-data-[layout=horizontal]:group-data-[sidebar-size=lg]:rtl:md:mr-auto 
             group-data-[layout=horizontal]:md:pt-[calc(theme('spacing.header')_*_1.6)] 
             group-data-[layout=horizontal]:px-3 
-            group-data-[layout=horizontal]:group-data-[navbar=hidden]:pt-[calc(theme('spacing.header')_*_0.9)]"">
+            group-data-[layout=horizontal]:group-data-[navbar=hidden]:pt-[calc(theme('spacing.header')_*_0.9)]">
 
 
     <div class="page-header">
@@ -44,10 +44,11 @@
             <div class="bg-white p-6 rounded shadow">
                 <h2 class="font-bold mb-3 text-lg">Background Image</h2>
 
-                @if ($why->background_image)
-                    <img src="{{ asset(str_replace('public/', 'storage/', $why->background_image)) }}" 
-                         class="rounded mb-3 w-full h-48 object-cover">
-                @endif
+              @if ($why->background_image)
+    <img src="{{ asset($why->background_image) }}" 
+         class="rounded mb-3 w-full h-48 object-cover">
+@endif
+
 
                 <input type="file" name="background_image" class="block mt-2 w-full">
             </div>
@@ -117,8 +118,8 @@
         </div>
 
         <!-- SUBMIT BUTTON -->
-        <div class="flex justify-center mt-5 " style="">
-              <button type="submit" class="mt-5 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Update Objective</button>
+        <div class="flex justify-center mt-3 " style="">
+              <button type="submit" class=" text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Update Objective</button>
         </div>
 
     </form>
