@@ -69,8 +69,8 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <a class="navbar-brand" href="/">
-                        <img src="{{ asset('main/assets/img/VIT.png') }}" class="logo logo-display" alt="Logo">
-                        <img src="{{ asset('main/assets/img/VIT.png') }}" class="logo logo-scrolled" alt="Logo">
+                        <img src="{{ asset('assets/images/logo-dark.png') }}" class="logo logo-display" alt="Logo">
+                        <img src="{{ asset('assets/images/logo-dark.png') }}" class="logo logo-scrolled" alt="Logo">
                     </a>
                 </div>
                 <!-- End Header Navigation -->

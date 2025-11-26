@@ -73,7 +73,7 @@ Table of contents
 	--dark: #040d43;
 	--dark-secondary: #022b6d;
 	--white: #ffffff;
-	--color-primary: #2b4dff;
+	--color-primary: #13a2ce;
 	--color-secondary: #3e00a7;
 	--color-heading: #04000b;
 	--color-paragraph: #666666;
@@ -8967,7 +8967,7 @@ color: #5138ee;
 }
 
 .blog-search-input:focus {
-    border-color: #0066ff;
+    border-color: #da1507;
     box-shadow: 0 0 8px rgba(0, 102, 255, 0.2);
 }
 
@@ -8985,7 +8985,7 @@ color: #5138ee;
 }
 
 .blog-search-btn:hover {
-    color: #0066ff;
+    color: #da1507;
 }
 
 .form-input{

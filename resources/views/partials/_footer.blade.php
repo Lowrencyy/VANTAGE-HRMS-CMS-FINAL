@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 item">
                         <div class="f-item about">
-                            <img src="{{ asset('main/assets/img/VIT.png') }}" alt="Logo">
+                            <img src="{{ asset('main/assets/img/logo-light.png') }}" alt="Logo">
                             <p>
                                 Happen active county. Winding for the morning am shyness evident to poor. Garrets because elderly new.
                             </p>

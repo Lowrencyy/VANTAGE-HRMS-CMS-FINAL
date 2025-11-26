@@ -18,7 +18,7 @@
             <div class="grid grid-cols-12 2xl:grid-cols-12 gap-x-5">
                 <div class="col-span-12 md:order-1 xl:col-span-8 2xl:col-span-6">
                     <h5 class="mb-2">Welcome Back {{ Session::get('name') }} </h5>
-                    {{-- <p class="mb-5 text-slate-500 dark:text-zink-200">The salary of<a href="#!" class="underline text-slate-800 dark:text-zink-50"> StarCode Kh</a> is pending since 05 Dec, 2024. the documentation of the tasks, workflows, and activities that make up a process managed by the HR or People Ops team. <a href="#!" class="text-red-500">Learn More</a></p> --}}
+                    <p class="mb-5 text-slate-500 dark:text-zink-200">The salary of<a href="#!" class="underline text-slate-800 dark:text-zink-50"> Employee name is </a> is pending since 05 Dec, 2024. the documentation of the tasks, workflows, and activities that make up a process managed by the HR or People Ops team. <a href="#!" class="text-red-500">Learn More</a></p>
                 </div>
                 <div class="col-span-12 md:order-2 xl:col-span-4 2xl:col-start-9 card">
                     <div class="p-4">
@@ -167,12 +167,12 @@
                                                     <img src="{{ URL::to('assets/images/avatar-10.png') }}" alt="" class="h-10 rounded-full">
                                                 </div>
                                                 <div class="grow">
-                                                    <h6>Kristen Redden</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">kredden@starcode.com</p>
+                                                    <h6>Nad Opiana</h6>
+                                                    <p class="text-slate-500 dark:text-zink-200">nad.opiana@telcovantage.com</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">Designer</td>
+                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">CFO</td>
                                         <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
                                         <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
                                             <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
@@ -184,126 +184,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck2" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1002</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="rounded-full size-10 bg-sky-100 dark:bg-sky-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-2.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Howard George</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">george@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">ASP.Net Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-red-500">Low</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck3" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1003</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="rounded-full size-10 bg-slate-100 dark:bg-zink-600 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-3.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Laura Carlson</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">carlson15@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">React Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Active</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck4" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1004</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="bg-yellow-100 rounded-full size-10 dark:bg-yellow-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-4.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Joseph Hawkins</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">joseph@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">Angular Developer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-green-500">Good</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">Disabled</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex items-center h-full">
-                                                <input id="productsCheck5" class="size-4 cursor-pointer bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500"><a href="#!">ST-1005</a></td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <div class="bg-yellow-100 rounded-full size-10 dark:bg-yellow-500/20 shrink-0">
-                                                    <img src="{{ URL::to('assets/images/avatar-5.png') }}" alt="" class="h-10 rounded-full">
-                                                </div>
-                                                <div class="grow">
-                                                    <h6>Jeremy  Clifford</h6>
-                                                    <p class="text-slate-500 dark:text-zink-200">joseph@starcode.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">UI / UX Designer</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500 text-red-500">Low</td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">Disabled</span>
-                                        </td>
-                                        <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 border-y border-slate-200 dark:border-zink-500">
-                                            <div class="flex gap-2">
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-100 dark:hover:bg-custom-500/20"><i data-lucide="pencil" class="size-4"></i></a>
-                                                <a href="#!" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 dark:bg-zink-600 dark:text-zink-200 text-slate-500 hover:text-red-500 dark:hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20"><i data-lucide="trash-2" class="size-4"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                
                                 </tbody>
                             </table>
                         </div>
@@ -357,7 +238,7 @@
                                     <h6>17</h6> <span class="text-sm text-slate-500 dark:text-zink-200">July</span>
                                 </div>
                                 <div class="grow">
-                                    <h6 class="mb-1">Airplane in Las Vegas <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">12:00 PM</small></h6>
+                                    <h6 class="mb-1">Lorem ipsum dolor sit amet. <small class="inline-block px-2 font-medium border border-transparent rounded text-[11px] py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">12:00 PM</small></h6>
                                     <p class="text-slate-500 dark:text-zink-200">Created by HR</p>
                                 </div>
                             </div>
@@ -463,7 +344,7 @@
                                         </div>
                                         <div class="grow">
                                             <h6 class="mb-1"><a href="#!">James Krogman</a></h6>
-                                            <p class="text-slate-500 dark:text-zink-200">james@starcode.com</p>
+                                            <p class="text-slate-500 dark:text-zink-200">james@telcovantage.com</p>
                                         </div>
                                         <div class="relative dropdown shrink-0">
                                             <button type="button" class="flex items-center justify-center w-[30px] h-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="interviewDropdown" data-bs-toggle="dropdown">
@@ -497,8 +378,8 @@
                                             <img src="{{ URL::to('assets/images/user-2.jpg') }}" alt="" class="h-10 rounded-full">
                                         </div>
                                         <div class="grow">
-                                            <h6 class="mb-1"><a href="#!">StarCode Kh</a></h6>
-                                            <p class="text-slate-500 dark:text-zink-200">starcode@starcode.com</p>
+                                            <h6 class="mb-1"><a href="#!">Laurence</a></h6>
+                                            <p class="text-slate-500 dark:text-zink-200">Laurence@telcovantage.com</p>
                                         </div>
                                         <div class="relative dropdown shrink-0">
                                             <button type="button" class="flex items-center justify-center w-[30px] h-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="interviewDropdown2" data-bs-toggle="dropdown">
@@ -533,7 +414,7 @@
                                         </div>
                                         <div class="grow">
                                             <h6 class="mb-1"><a href="#!">Denise Ledford</a></h6>
-                                            <p class="text-slate-500 dark:text-zink-200">ledford@starcode.com</p>
+                                            <p class="text-slate-500 dark:text-zink-200">ledford@telcovantage.com</p>
                                         </div>
                                         <div class="relative dropdown shrink-0">
                                             <button type="button" class="flex items-center justify-center w-[30px] h-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="interviewDropdown3" data-bs-toggle="dropdown">
@@ -568,7 +449,7 @@
                                         </div>
                                         <div class="grow">
                                             <h6 class="mb-1"><a href="#!">Gladys Smith</a></h6>
-                                            <p class="text-slate-500 dark:text-zink-200">gap-4@starcode.com</p>
+                                            <p class="text-slate-500 dark:text-zink-200">gap-4@telcovantage.com</p>
                                         </div>
                                         <div class="relative dropdown shrink-0">
                                             <button type="button" class="flex items-center justify-center w-[30px] h-[30px] p-0 bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100 focus:text-slate-500 focus:bg-slate-100 active:text-slate-500 active:bg-slate-100 dark:bg-zink-700 dark:hover:bg-slate-500/10 dark:focus:bg-slate-500/10 dark:active:bg-slate-500/10 dropdown-toggle" id="interviewDropdown4" data-bs-toggle="dropdown">
@@ -610,7 +491,7 @@
                                         <img src="{{ URL::to('assets/images/avatar-6.png') }}" alt="" class="h-10 rounded-full">
                                     </div>
                                     <div class="grow">
-                                        <h6 class="mb-1">Nakisha Short</h6>
+                                        <h6 class="mb-1">Mark Laurence</h6>
                                         <p class="text-slate-500 dark:text-zink-200">Her Birthday Today</p>
                                     </div>
                                 </div>
@@ -652,7 +533,7 @@
                                                 <h6 class="mb-0">Christopher Horn</h6>
                                             </div>
                                             <div class="shrink-0">
-                                                <h6>$145.32</h6>
+                                                <h6>P145.32</h6>
                                             </div>
                                             <div class="w-20 ltr:text-right rtl:text-left shrink-0">
                                                 <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
@@ -750,7 +631,7 @@
                                                 <h6 class="mb-0">Christopher Horn</h6>
                                             </div>
                                             <div class="shrink-0">
-                                                <h6>$145.32</h6>
+                                                <h6>$P.32</h6>
                                             </div>
                                             <div class="w-20 ltr:text-right rtl:text-left shrink-0">
                                                 <span class="px-2.5 py-0.5 inline-block text-[11px] font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
