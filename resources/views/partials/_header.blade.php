@@ -4,10 +4,10 @@
                 <div class="col-lg-6 info">
                     <ul>
                         <li>
-                            <i class="fas fa-map-marker-alt"></i> Unit 1702 South Corporate Plaza
+                            <i class="fas fa-map-marker-alt"></i>{{ $contact->location_text ?? 'Please Update Address On Contact Us Admin Dashboard' }}
                         </li>
                         <li>
-                            <a href=""><i class="fas fa-envelope-open"></i> Connect@vantageit.ph</a>
+                            <a href=""><i class="fas fa-envelope-open"></i> {{ $contact->email_text ?? 'info@yourdomain.com' }}</a>
                         </li>
                     </ul>
                 </div>
