@@ -303,6 +303,24 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/contact-us', [ContactController::class, 'cmsEdit'])->name('admin.contactus.edit');
     Route::put('/contact-us', [ContactController::class, 'cmsUpdate'])->name('admin.contactus.update');
 });
+
+
+// Faq Connected to contact below 
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+
+    // FAQ CMS PAGE
+    Route::get('/faq', [ContactController::class, 'faqCMS'])->name('admin.faq');
+
+    // SAVE FAQ HEADER
+    Route::post('/faq/settings', [ContactController::class, 'faqSettingsSave'])->name('admin.faq.settings');
+
+    // ADD FAQ ITEM (THIS FIXES SUBMIT)
+    Route::post('/faq/add', [ContactController::class, 'faqSave'])->name('admin.faq.add');
+
+    // DELETE FAQ
+    Route::delete('/faq/delete/{id}', [ContactController::class, 'faqDelete'])->name('admin.faq.delete');
+
+});
 // contact end 
 // EMPLOYEE reimbursements (auth lang muna)
 Route::middleware(['auth'])->group(function () {
@@ -318,6 +336,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/employee/reimbursements/{reimbursement}', [EmployeeReimbursementController::class, 'show'])
         ->name('employee.reimbursements.show');
 });
+
+
 
 // HR REIMBURSEMENTS (auth lang muna)
 Route::middleware(['auth'])->group(function () {
