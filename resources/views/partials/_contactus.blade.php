@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <div class="site-heading text-center">
-                    <h4>Contact Us</h4>
-                    <h2 class="title">What we do?</h2>
+                    <h4>{{ $contact->section_subtitle ?? 'Contact Us' }}</h4>
+                    <h2 class="title">{{ $contact->section_title ?? 'What we do?' }}</h2>
                 </div>
             </div>
         </div>
@@ -20,20 +20,50 @@
             <div class="col-lg-6 contact-form-box">
                 <div class="content">
                     <div class="heading">
-                        <h2 class="title">Need Help?</h2>
-                        <p>Reach out to the world’s most reliable IT services.</p>
+                        <h2 class="title">{{ $contact->need_help_title ?? 'Need Help?' }}</h2>
+                        <p>{{ $contact->need_help_subtitle ?? "Reach out to the world’s most reliable IT services." }}</p>
                     </div>
-                    <form action="assets/mail/contact.php" method="POST" class="contact-form">
+
+                    {{-- Success / Error Messages (optional) --}}
+                    @if(session('success'))
+                        <div class="alert alert-success mb-3">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger mb-3">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
+                        @csrf
+
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input class="form-control" id="name" name="name" placeholder="Name" type="text">
+                                    <input class="form-control"
+                                           id="name"
+                                           name="name"
+                                           placeholder="Name"
+                                           type="text"
+                                           value="{{ old('name') }}">
                                     <span class="alert-error"></span>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input class="form-control" id="email" name="email" placeholder="Email*" type="email">
+                                    <input class="form-control"
+                                           id="email"
+                                           name="email"
+                                           placeholder="Email*"
+                                           type="email"
+                                           value="{{ old('email') }}">
                                     <span class="alert-error"></span>
                                 </div>
                             </div>
@@ -42,7 +72,12 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text">
+                                    <input class="form-control"
+                                           id="phone"
+                                           name="phone"
+                                           placeholder="Phone"
+                                           type="text"
+                                           value="{{ old('phone') }}">
                                     <span class="alert-error"></span>
                                 </div>
                             </div>
@@ -51,7 +86,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group comments">
-                                    <textarea class="form-control" id="comments" name="comments" placeholder="Please describe what you need."></textarea>
+                                    <textarea class="form-control"
+                                              id="comments"
+                                              name="comments"
+                                              placeholder="Please describe what you need.">{{ old('comments') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +102,7 @@
                             </div>
                         </div>
 
-                        <!-- Alert Message -->
+                        <!-- Alert Message (if you use JS for AJAX) -->
                         <div class="row">
                             <div class="col-md-12 alert-notification">
                                 <div id="message" class="alert-msg"></div>
@@ -77,8 +115,9 @@
             <!-- Right Side Image -->
             <div class="col-lg-6">
                 <div class="h-100 d-flex justify-content-center align-items-center">
-                    <!-- Replace image source with your own image -->
-                    <img src="assets/img/contact-side-image.jpg" alt="Contact Illustration" class="img-fluid">
+                    <img src="{{ asset($contact->image_path ?? 'assets/img/contact-side-image.jpg') }}"
+                         alt="Contact Illustration"
+                         class="img-fluid">
                 </div>
             </div>
 
@@ -92,8 +131,8 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="info">
-                        <h5>Our Location</h5>
-                        <p>Database Text Address</p>
+                        <h5>{{ $contact->location_title ?? 'Our Location' }}</h5>
+                        <p>{{ $contact->location_text ?? 'Database Text Address' }}</p>
                     </div>
                 </div>
             </div>
@@ -104,8 +143,8 @@
                         <i class="fas fa-envelope-open"></i>
                     </div>
                     <div class="info">
-                        <h5>Email Us</h5>
-                        <p>info@yourdomain.com</p>
+                        <h5>{{ $contact->email_title ?? 'Email Us' }}</h5>
+                        <p>{{ $contact->email_text ?? 'info@yourdomain.com' }}</p>
                     </div>
                 </div>
             </div>
@@ -116,8 +155,8 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="info">
-                        <h5>Call Us</h5>
-                        <p>+456 456 4443</p>
+                        <h5>{{ $contact->phone_title ?? 'Call Us' }}</h5>
+                        <p>{{ $contact->phone_text ?? '+456 456 4443' }}</p>
                     </div>
                 </div>
             </div>
@@ -128,8 +167,10 @@
             <div class="col-12">
                 <div class="map-wrapper">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14767.262289338461!2d70.79414485000001!3d22.284975!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1424308883981"
-                        style="border:0; width:100%; height:350px;" allowfullscreen="" loading="lazy"
+                        src="{{ $contact->map_embed }}"
+                        style="border:0; width:100%; height:350px;"
+                        allowfullscreen
+                        loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>

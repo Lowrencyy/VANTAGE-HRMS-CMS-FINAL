@@ -14,7 +14,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\WhyChooseController;
 use App\Http\Controllers\EmployeeReimbursementController;
 use App\Http\Controllers\HrReimbursementController;
-
+use App\Http\Controllers\ContactController;
 use App\Models\HeroBanner;
 use App\Models\MissionVision;
 use App\Models\Objective;
@@ -290,6 +290,20 @@ Route::get('/services/{id}', [ServiceController::class, 'show'])
 
 // ==================== REIMBURSEMENTS ====================
 
+// Contact Editable 
+
+/* LANDING */
+Route::get('/', [ContactController::class, 'index'])->name('landing');
+
+/* CONTACT FORM SUBMIT */
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+
+/* CMS (Contact Us editor) */
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/contact-us', [ContactController::class, 'cmsEdit'])->name('admin.contactus.edit');
+    Route::put('/contact-us', [ContactController::class, 'cmsUpdate'])->name('admin.contactus.update');
+});
+// contact end 
 // EMPLOYEE reimbursements (auth lang muna)
 Route::middleware(['auth'])->group(function () {
     Route::get('/employee/reimbursements', [EmployeeReimbursementController::class, 'index'])
